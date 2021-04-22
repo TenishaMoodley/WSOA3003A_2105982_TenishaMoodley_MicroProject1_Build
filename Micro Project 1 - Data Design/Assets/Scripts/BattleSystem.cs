@@ -65,6 +65,8 @@ public class BattleSystem : MonoBehaviour
     {
         buttons.SetActive(false);
 
+        EnemyUnit.CurrentAcc = Random.Range(EnemyUnit.CurrentAcc, EnemyUnit.MaxAcc);
+
         if (EnemyUnit.CurrentSpeed >= PlayerUnit.CurrentAcc)
         {
             bool isDead = EnemyUnit.TakeDamage(0);
@@ -140,6 +142,7 @@ public class BattleSystem : MonoBehaviour
         EnemyUnit.Smoke(8);
         //PlayerHUD.StatsText.text = "Atk Damage: " + PlayerUnit.Damage + "\n" + "Def: " + PlayerUnit.CurrentDef + "\n" + "Accuracy: " + PlayerUnit.CurrentAcc + "%" + "\n" + "Speed: " + PlayerUnit.CurrentSpeed;
         EnemyHUD.StatsText.text = "Atk Damage: " + EnemyUnit.Damage + "\n" + "Def: " + EnemyUnit.CurrentDef + "\n" + "Accuracy: " + EnemyUnit.CurrentAcc + "%" + "\n" + "Speed: " + EnemyUnit.CurrentSpeed;
+        EnemyUnit.CurrentSpeed = Random.Range(EnemyUnit.CurrentSpeed, EnemyUnit.MaxSpeed);
 
         if (EnemyUnit.CurrentSpeed >= EnemyUnit.MaxSpeed)
         {
@@ -176,7 +179,9 @@ public class BattleSystem : MonoBehaviour
         EnemyUnit.Doppel(10);
         //PlayerHUD.StatsText.text = "Atk Damage: " + PlayerUnit.Damage + "\n" + "Def: " + PlayerUnit.CurrentDef + "\n" + "Accuracy: " + PlayerUnit.CurrentAcc + "%" + "\n" + "Speed: " + PlayerUnit.CurrentSpeed;
         EnemyHUD.StatsText.text = "Atk Damage: " + EnemyUnit.Damage + "\n" + "Def: " + EnemyUnit.CurrentDef + "\n" + "Accuracy: " + EnemyUnit.CurrentAcc + "%" + "\n" + "Speed: " + EnemyUnit.CurrentSpeed;
-        
+
+        EnemyUnit.CurrentDef = Random.Range(EnemyUnit.CurrentDef, EnemyUnit.MaxDef);
+
         if (EnemyUnit.Damage >= EnemyUnit.MaxDamage)
         {
             DialogueText.text = "Enemy ATTACK DAMAGE cannot rise anymore.";// + "\n" + "Enemy ACCURACY lowered!";
@@ -238,7 +243,11 @@ public class BattleSystem : MonoBehaviour
     IEnumerator EnemyTurn()
     {
         buttons.SetActive(false);
-       
+
+        PlayerUnit.CurrentSpeed = Random.Range(PlayerUnit.CurrentSpeed, PlayerUnit.MaxSpeed);
+        PlayerUnit.CurrentDef = Random.Range(PlayerUnit.CurrentDef, PlayerUnit.MaxDef);
+        PlayerUnit.CurrentAcc = Random.Range(PlayerUnit.CurrentAcc, PlayerUnit.MaxAcc);
+
         if (PlayerUnit.CurrentSpeed > EnemyUnit.CurrentAcc)
         {
             DialogueText.text = EnemyUnit.UnitName + " ATTACKS!";
@@ -429,5 +438,14 @@ public class BattleSystem : MonoBehaviour
     public void OnExitButton()
     {
         Application.Quit();
+    }
+
+    public void OnNextBattle()
+    {
+        //PlayNextCounter++;
+        //Debug.Log("cardCount: " + CardCounter);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 }
